@@ -42,6 +42,7 @@ dotnet tool update -g Volo.Abp.Cli
 * **`login`**: 使用你在[abp.io](https://abp.io/)的用户名和密码在你的计算机上认证.
 * **`login-info`**: 展示当前登录用户信息.
 * **`logout`**: 在你的计算机注销认证.
+* **`bundle`**: 为 ABP Blazor 和 MAUI Blazor 项目生成引用的脚本和样式. 
 * **`install-libs`**: 为 MVC / Razor Pages 和 Blazor Server UI 类型安装NPM包.
 
 ### help
@@ -123,6 +124,7 @@ abp new Acme.BookStore
   * `module`: [Module template](Startup-Templates/Module.md). 其他选项:
     * `--no-ui`: 不包含UI.仅创建服务模块(也称为微服务 - 没有UI).
   * **`console`**: [Console template](Startup-Templates/Console.md).
+  * **`maui`**: [Maui template](Startup-Templates/MAUI.md).
   * **`app-nolayers`**: 应用程序单层模板
   * `--ui` 或者 `-u`: 指定ui框架.默认`mvc`框架.其他选项:
     * `mvc`: ASP.NET Core MVC.
@@ -190,16 +192,22 @@ abp add-package <包名> [options]
 示例:
 
 ````
-abp add-package Volo.Abp.MongoDB
+abp add-package Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic
 ````
 
-* 示例中将Volo.Abp.MongoDB包添加到项目中.
+* 示例中将`Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic`包添加到项目中.
 
 #### Options
 
 * `--project` 或 `-p`: 指定项目 (.csproj) 路径. 如果未指定,Cli会尝试在当前目录查找.csproj文件.
 * `--with-source-code`: 下载包的源码到你的解决方案文件夹，而不是NuGet/NPM软件包.
 * `--add-to-solution-file`: 添加下载/创建的包添加到解决方案文件中,你在IDE中打开解决方案时也会看到包的项目. (仅当 `--with-source-code` 为 `True` 时可用.)
+
+> 当前只有基本主题包([MVC](https://docs.abp.io/zh-Hans/abp/latest/UI/AspNetCore/Basic-Theme) 和 [Blazor](https://docs.abp.io/zh-Hans/abp/latest/UI/Blazor/Basic-Theme)) 可以下载.
+> - Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic
+> - Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme
+> - Volo.Abp.AspNetCore.Components.Web.BasicTheme
+> - Volo.Abp.AspNetCore.Components.Server.BasicTheme
 
 ### add-module
 
@@ -251,6 +259,7 @@ abp generate-proxy -t csharp -url https://localhost:44302/
 
 * `--type` 或 `-t`: 客户端类型的名称. 可用的客户端有:
   * `csharp`: C#, 工作在 `*.HttpApi.Client` 项目目录. 此客户端有一些可选选项:
+    * `--without-contracts`: 取消生成应用程序服务接口,类,枚举和DTO.
     * `--folder`: 放置生成的 CSharp 代码的文件夹名称. 默认值: `ClientProxies`.
   * `ng`: Angular. 此客户端有一些可选选项:
     * `--api-name` 或 `-a`: 在 `/src/environments/environment.ts` 中定义的API端点名称。. 默认值: `default`.
@@ -366,7 +375,7 @@ abp translate -c <culture> [options]
 示例:
 
 ````bash
-abp translate -c de-DE
+abp translate -c de
 ````
 
 该命令为 `de-DE` (德语)文化创建了统一的翻译文件.
@@ -402,6 +411,7 @@ abp login <username>                                  # Allows you to enter your
 abp login <username> -p <password>                    # Specify the password as a parameter (password is visible)
 abp login <username> --organization <organization>    # If you have multiple organizations, you need set your active organization
 abp login <username> -p <password> -o <organization>  # You can enter both your password and organization in the same command
+abp login <username> --device                         # Use device login flow
 ```
 
 > 当使用-p参数,请注意,因为你的密码是可见的. 它对于CI / CD自动化管道很有用.
@@ -423,6 +433,26 @@ abp login-info
 ```
 abp logout
 ```
+
+### bundle
+
+这个命令为ABP Blazor WebAssembly 和 MAUI Blazor 项目生成引用的脚本和样式并且更新 **index.html** 文件, 它帮助开发者轻松的管理ABP模块的依赖. 为了使 ```bundle``` 命令工作, 它的**执行目录**或者传递 ```--working-directory``` 参数的目录必须包含Blazor或MAUI Blazor项目文件(*.csproj)
+
+用法:
+
+````bash
+abp bundle [options]
+````
+
+#### Options
+
+* ```--working-directory``` 或 ```-wd```: 指定当前执行目录, 这个命令在当前目录不包含项目文件时非常有用.
+* ```--force``` 或 ```-f```: 在生成引用之前强制构建项目.
+* ```--project-type``` 或 ```-t```: 指定项目类型. 默认类型是 `webassembly`. 可用的类型有:
+  * `webassembly`
+  * `maui-blazor`
+
+`bundle` command reads the `appsettings.json` file inside the Blazor and MAUI Blazor project for bundling options. For more details about managing style and script references in Blazor or MAUI Blazor apps, see [Managing Global Scripts & Styles](UI/Blazor/Global-Scripts-Styles.md)
 
 ### install-libs
 

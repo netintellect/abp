@@ -1,0 +1,24 @@
+{
+  "name": "Volo.Blogging.HttpApi.Client",
+  "hash": "a9dae513e61ff9592c5ec4f925f1cd5c",
+  "contents": [
+    {
+      "namespace": "Volo.Blogging",
+      "dependsOnModules": [
+        {
+          "declaringAssemblyName": "Volo.Blogging.Application.Contracts",
+          "namespace": "Volo.Blogging",
+          "name": "BloggingApplicationContractsModule"
+        },
+        {
+          "declaringAssemblyName": "Volo.Abp.Http.Client",
+          "namespace": "Volo.Abp.Http.Client",
+          "name": "AbpHttpClientModule"
+        }
+      ],
+      "contentType": "abpModule",
+      "name": "BloggingHttpApiClientModule",
+      "summary": null
+    }
+  ]
+}

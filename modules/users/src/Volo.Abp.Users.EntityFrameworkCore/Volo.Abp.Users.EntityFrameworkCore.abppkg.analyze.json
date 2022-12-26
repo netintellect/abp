@@ -1,11 +1,24 @@
 {
   "name": "Volo.Abp.Users.EntityFrameworkCore",
-  "hash": "edd7cc214a1b8f121f773be7b88957ff",
+  "hash": "91462c30d98fe408a01e32158aea34e2",
   "contents": [
     {
       "namespace": "Volo.Abp.Users.EntityFrameworkCore",
+      "dependsOnModules": [
+        {
+          "declaringAssemblyName": "Volo.Abp.Users.Domain",
+          "namespace": "Volo.Abp.Users",
+          "name": "AbpUsersDomainModule"
+        },
+        {
+          "declaringAssemblyName": "Volo.Abp.EntityFrameworkCore",
+          "namespace": "Volo.Abp.EntityFrameworkCore",
+          "name": "AbpEntityFrameworkCoreModule"
+        }
+      ],
       "contentType": "abpModule",
-      "name": "AbpUsersEntityFrameworkCoreModule"
+      "name": "AbpUsersEntityFrameworkCoreModule",
+      "summary": null
     }
   ]
 }

@@ -1,11 +1,24 @@
 {
   "name": "Volo.CmsKit.Admin.Web",
-  "hash": "3f95d9795d85d7afbd3311ce13806594",
+  "hash": "8b81f87ac695278006ff3651efae5eea",
   "contents": [
     {
       "namespace": "Volo.CmsKit.Admin.Web",
+      "dependsOnModules": [
+        {
+          "declaringAssemblyName": "Volo.CmsKit.Admin.Application.Contracts",
+          "namespace": "Volo.CmsKit.Admin",
+          "name": "CmsKitAdminApplicationContractsModule"
+        },
+        {
+          "declaringAssemblyName": "Volo.CmsKit.Common.Web",
+          "namespace": "Volo.CmsKit.Web",
+          "name": "CmsKitCommonWebModule"
+        }
+      ],
       "contentType": "abpModule",
-      "name": "CmsKitAdminWebModule"
+      "name": "CmsKitAdminWebModule",
+      "summary": null
     }
   ]
 }

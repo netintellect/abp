@@ -1,15 +1,22 @@
-﻿using JetBrains.Annotations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Authorization;
+using Volo.Abp.Features;
 using Volo.Abp.GlobalFeatures;
+using Volo.Abp.Users;
 using Volo.CmsKit.Blogs;
+using Volo.CmsKit.Contents;
+using Volo.CmsKit.Features;
 using Volo.CmsKit.GlobalFeatures;
 using Volo.CmsKit.Users;
 
 namespace Volo.CmsKit.Public.Blogs;
 
+[RequiresFeature(CmsKitFeatures.BlogEnable)]
 [RequiresGlobalFeature(typeof(BlogsFeature))]
 public class BlogPostPublicAppService : CmsKitPublicAppServiceBase, IBlogPostPublicAppService
 {
@@ -25,16 +32,17 @@ public class BlogPostPublicAppService : CmsKitPublicAppServiceBase, IBlogPostPub
         BlogPostRepository = blogPostRepository;
     }
 
-    public virtual async Task<BlogPostPublicDto> GetAsync([NotNull] string blogSlug, [NotNull] string blogPostSlug)
+    public virtual async Task<BlogPostCommonDto> GetAsync(
+        [NotNull] string blogSlug, [NotNull] string blogPostSlug)
     {
         var blog = await BlogRepository.GetBySlugAsync(blogSlug);
 
         var blogPost = await BlogPostRepository.GetBySlugAsync(blog.Id, blogPostSlug);
 
-        return ObjectMapper.Map<BlogPost, BlogPostPublicDto>(blogPost);
+        return ObjectMapper.Map<BlogPost, BlogPostCommonDto>(blogPost);
     }
 
-    public virtual async Task<PagedResultDto<BlogPostPublicDto>> GetListAsync([NotNull] string blogSlug, BlogPostGetListInput input)
+    public virtual async Task<PagedResultDto<BlogPostCommonDto>> GetListAsync([NotNull] string blogSlug, BlogPostGetListInput input)
     {
         var blog = await BlogRepository.GetBySlugAsync(blogSlug);
 
@@ -42,10 +50,10 @@ public class BlogPostPublicAppService : CmsKitPublicAppServiceBase, IBlogPostPub
             BlogPostStatus.Published, input.MaxResultCount,
             input.SkipCount, input.Sorting);
 
-        return new PagedResultDto<BlogPostPublicDto>(
+        return new PagedResultDto<BlogPostCommonDto>(
             await BlogPostRepository.GetCountAsync(blogId: blog.Id, tagId: input.TagId,
                 statusFilter: BlogPostStatus.Published, authorId: input.AuthorId),
-            ObjectMapper.Map<List<BlogPost>, List<BlogPostPublicDto>>(blogPosts));
+            ObjectMapper.Map<List<BlogPost>, List<BlogPostCommonDto>>(blogPosts));
     }
 
     public virtual async Task<PagedResultDto<CmsUserDto>> GetAuthorsHasBlogPostsAsync(BlogPostFilteredPagedAndSortedResultRequestDto input)
@@ -63,5 +71,18 @@ public class BlogPostPublicAppService : CmsKitPublicAppServiceBase, IBlogPostPub
         var author = await BlogPostRepository.GetAuthorHasBlogPostAsync(id);
 
         return ObjectMapper.Map<CmsUser, CmsUserDto>(author);
+    }
+
+    [Authorize]
+    public async Task DeleteAsync(Guid id)
+    {
+        var rating = await BlogPostRepository.GetAsync(id);
+
+        if (rating.CreatorId != CurrentUser.GetId())
+        {
+            throw new AbpAuthorizationException();
+        }
+
+        await BlogPostRepository.DeleteAsync(id);
     }
 }

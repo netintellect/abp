@@ -1,0 +1,29 @@
+{
+  "name": "Volo.ClientSimulation.Web",
+  "hash": "1913a7b6321a708f04a78079642d9ef5",
+  "contents": [
+    {
+      "namespace": "Volo.ClientSimulation",
+      "dependsOnModules": [
+        {
+          "declaringAssemblyName": "Volo.ClientSimulation",
+          "namespace": "Volo.ClientSimulation",
+          "name": "ClientSimulationModule"
+        },
+        {
+          "declaringAssemblyName": "Volo.Abp.Http.Client.IdentityModel.Web",
+          "namespace": "Volo.Abp.Http.Client.IdentityModel.Web",
+          "name": "AbpHttpClientIdentityModelWebModule"
+        },
+        {
+          "declaringAssemblyName": "Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared",
+          "namespace": "Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared",
+          "name": "AbpAspNetCoreMvcUiThemeSharedModule"
+        }
+      ],
+      "contentType": "abpModule",
+      "name": "ClientSimulationWebModule",
+      "summary": null
+    }
+  ]
+}

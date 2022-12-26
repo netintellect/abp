@@ -1,0 +1,24 @@
+{
+  "name": "Volo.Abp.Users.Abstractions",
+  "hash": "05afa45711aaacf5c6e889d5899b1c87",
+  "contents": [
+    {
+      "namespace": "Volo.Abp.Users",
+      "dependsOnModules": [
+        {
+          "declaringAssemblyName": "Volo.Abp.MultiTenancy",
+          "namespace": "Volo.Abp.MultiTenancy",
+          "name": "AbpMultiTenancyModule"
+        },
+        {
+          "declaringAssemblyName": "Volo.Abp.EventBus",
+          "namespace": "Volo.Abp.EventBus",
+          "name": "AbpEventBusModule"
+        }
+      ],
+      "contentType": "abpModule",
+      "name": "AbpUsersAbstractionModule",
+      "summary": null
+    }
+  ]
+}

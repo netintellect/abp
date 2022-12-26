@@ -1,11 +1,24 @@
 {
   "name": "Volo.Abp.TenantManagement.HttpApi.Client",
-  "hash": "623748194a73757a698843974e2631dd",
+  "hash": "c77b08bf3f29ef8527c95ec3db647911",
   "contents": [
     {
       "namespace": "Volo.Abp.TenantManagement",
+      "dependsOnModules": [
+        {
+          "declaringAssemblyName": "Volo.Abp.TenantManagement.Application.Contracts",
+          "namespace": "Volo.Abp.TenantManagement",
+          "name": "AbpTenantManagementApplicationContractsModule"
+        },
+        {
+          "declaringAssemblyName": "Volo.Abp.Http.Client",
+          "namespace": "Volo.Abp.Http.Client",
+          "name": "AbpHttpClientModule"
+        }
+      ],
       "contentType": "abpModule",
-      "name": "AbpTenantManagementHttpApiClientModule"
+      "name": "AbpTenantManagementHttpApiClientModule",
+      "summary": null
     }
   ]
 }

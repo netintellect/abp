@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -20,13 +21,13 @@ public class Program
             .MinimumLevel.Override("System.Net.Http.HttpClient", LogEventLevel.Warning)
             .MinimumLevel.Override("Volo.Abp.IdentityModel", LogEventLevel.Information)
 #if DEBUG
-                .MinimumLevel.Override("Volo.Abp.Cli", LogEventLevel.Debug)
+            .MinimumLevel.Override("Volo.Abp.Cli", LogEventLevel.Debug)
 #else
-                .MinimumLevel.Override("Volo.Abp.Cli", LogEventLevel.Information)
+            .MinimumLevel.Override("Volo.Abp.Cli", LogEventLevel.Information)
 #endif
-                .Enrich.FromLogContext()
+            .Enrich.FromLogContext()
             .WriteTo.File(Path.Combine(CliPaths.Log, "abp-cli-logs.txt"))
-            .WriteTo.Console()
+            .WriteTo.Console(theme: AnsiConsoleTheme.Sixteen)
             .CreateLogger();
 
         using (var application = AbpApplicationFactory.Create<AbpCliModule>(

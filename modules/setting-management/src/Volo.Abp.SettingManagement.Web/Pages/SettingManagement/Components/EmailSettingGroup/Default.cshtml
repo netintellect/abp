@@ -6,6 +6,8 @@
 @inject IPermissionChecker PermissionChecker
 @model Volo.Abp.SettingManagement.Web.Pages.SettingManagement.Components.EmailSettingGroup.EmailSettingGroupViewComponent.UpdateEmailSettingsViewModel
 
+<abp-script src="/Pages/SettingManagement/Components/EmailSettingGroup/Default.js" />
+
 <form id="EmailSettingsForm" method="post">
     <abp-row>
         <abp-column size-md="_12">
@@ -19,7 +21,7 @@
                 <div id="HideSectionWhenUseDefaultCredentialsIsChecked" @Html.Raw(Model.SmtpUseDefaultCredentials ? "style=\"display: none;\"" : "")>
                     <abp-input asp-for="SmtpDomain"/>
                     <abp-input asp-for="SmtpUserName"/>
-                    <abp-input type="password" asp-for="SmtpPassword"/>
+                    <abp-input type="password" autocomplete="new-password" asp-for="SmtpPassword"/>
                 </div>
             </div>
             <hr class="my-4"/>
