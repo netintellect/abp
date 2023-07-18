@@ -30,7 +30,7 @@ public class MongoDbRepository<TMongoDbContext, TEntity>
     [Obsolete("Use GetCollectionAsync method.")]
     public virtual IMongoCollection<TEntity> Collection => DbContext.Collection<TEntity>();
 
-    public async Task<IMongoCollection<TEntity>> GetCollectionAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<IMongoCollection<TEntity>> GetCollectionAsync(CancellationToken cancellationToken = default)
     {
         return (await GetDbContextAsync(GetCancellationToken(cancellationToken))).Collection<TEntity>();
     }
@@ -38,7 +38,7 @@ public class MongoDbRepository<TMongoDbContext, TEntity>
     [Obsolete("Use GetDatabaseAsync method.")]
     public virtual IMongoDatabase Database => DbContext.Database;
 
-    public async Task<IMongoDatabase> GetDatabaseAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<IMongoDatabase> GetDatabaseAsync(CancellationToken cancellationToken = default)
     {
         return (await GetDbContextAsync(GetCancellationToken(cancellationToken))).Database;
     }
@@ -610,7 +610,7 @@ public class MongoDbRepository<TMongoDbContext, TEntity>
         return Task.CompletedTask;
     }
 
-    private void TriggerEntityCreateEvents(TEntity entity)
+    protected virtual void TriggerEntityCreateEvents(TEntity entity)
     {
         EntityChangeEventHelper.PublishEntityCreatedEvent(entity);
     }
